@@ -3,9 +3,16 @@ import math
 import ctre
 
 class DriveTrain:
-    def __init__(self, left_motor: ctre.WPI_TalonSRX, right_motor: ctre.WPI_TalonSRX):
-        self.left_motor  = left_motor
-        self.right_motor = right_motor
+    def __init__(self, left_motor: ctre.WPI_TalonSRX, left_motor_2: ctre.WPI_TalonSRX, right_motor: ctre.WPI_TalonSRX, right_motor_2: ctre.WPI_TalonSRX):
+        self.left_motor    = left_motor
+        self.left_motor_2  = left_motor_2
+        self.right_motor   = right_motor
+        self.right_motor_2 = right_motor_2
+
+        self.left_motor_2.follow(self.left_motor)
+        self.right_motor_2.follow(self.right_motor)
+
+
         #self.navx        = navx
 
         self.left_motor.configSelectedFeedbackSensor(ctre.FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0)
@@ -17,7 +24,11 @@ class DriveTrain:
 
         self.left_motor.configVoltageCompSaturation(11.0, 0)
         self.left_motor.enableVoltageCompensation(True)
-        self.left_motor.configVoltageMeasurementFilter(32, 0)
+        self.left_motor.configVoltageMeasurementFilter(32, 0
+
+        self.left_motor_2.configVoltageCompSaturation(11.0, 0)
+        self.left_motor_2.enableVoltageCompensation(True)
+        self.left_motor_2.configVoltageMeasurementFilter(32, 0)
 
         self.right_motor.configSelectedFeedbackSensor(ctre.FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0)
         self.right_motor.setInverted(True)
@@ -30,6 +41,10 @@ class DriveTrain:
         self.right_motor.configVoltageCompSaturation(11.0, 0)
         self.right_motor.enableVoltageCompensation(True)
         self.right_motor.configVoltageMeasurementFilter(32, 0)
+
+        self.right_motor_2.configVoltageCompSaturation(11.0, 0)
+        self.right_motor_2.enableVoltageCompensation(True)
+        self.right_motor_2.configVoltageMeasurementFilter(32, 0)
 
         self.rotation_started     = False
         self.distance_pid_started = False
@@ -212,6 +227,7 @@ class DriveTrain:
 
         self.left_motor.set(ctre.ControlMode.PercentOutput, left_power)
         self.right_motor.set(ctre.ControlMode.PercentOutput, right_power)
+
 
     def drive_with_joystick(self, stick: wpilib.Joystick):
         trigger = self.get_trigger(stick)
