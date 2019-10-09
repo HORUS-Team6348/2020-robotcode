@@ -24,7 +24,7 @@ class DriveTrain:
 
         self.left_motor.configVoltageCompSaturation(11.0, 0)
         self.left_motor.enableVoltageCompensation(True)
-        self.left_motor.configVoltageMeasurementFilter(32, 0
+        self.left_motor.configVoltageMeasurementFilter(32, 0)
 
         self.left_motor_2.configVoltageCompSaturation(11.0, 0)
         self.left_motor_2.enableVoltageCompensation(True)
