@@ -46,7 +46,7 @@ class Shooter:
 
         elif stick.getRawButton(5) or stick.getRawButton(6): #regresar pelota
             self.intake_motor.set(0.5)
-            
+
             self.left_shooter.set(ctre.ControlMode.PercentOutput, -0.3)
             self.right_shooter.set(ctre.ControlMode.PercentOutput, -0.3)
 
