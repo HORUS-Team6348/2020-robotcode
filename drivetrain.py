@@ -9,10 +9,12 @@ class DriveTrain:
         self.right_motor   = right_motor
         self.right_motor_2 = right_motor_2
 
+
         self.left_motor_2.follow(self.left_motor)
         self.right_motor_2.follow(self.right_motor)
-        
 
+        self.right_motor.setInverted(True)
+        self.right_motor_2.setInverted(True)
 
         #self.navx        = navx
 
@@ -23,13 +25,6 @@ class DriveTrain:
         self.left_motor_2.configVoltageCompSaturation(11.0, 0)
         self.left_motor_2.enableVoltageCompensation(True)
         self.left_motor_2.configVoltageMeasurementFilter(32, 0)
-
-        self.right_motor.configSelectedFeedbackSensor(ctre.FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0)
-        self.right_motor.setSensorPhase(True)
-        self.right_motor.config_kP(0, (1023 * 0.5)/4096, 0)
-        self.right_motor.config_kI(0, 0, 0)
-        self.right_motor.config_kD(0, 0, 0)
-        self.right_motor.config_kF(0, 0, 0)
 
         self.right_motor.configVoltageCompSaturation(11.0, 0)
         self.right_motor.enableVoltageCompensation(True)

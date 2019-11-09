@@ -16,12 +16,12 @@ class Robot(wpilib.TimedRobot):
         self.driver_stick   = wpilib.Joystick(0)
         self.codriver_stick = wpilib.Joystick(1)
 
-        self.left_shooter_motor      = ctre.WPI_TalonSRX(5)
-        self.right_shooter_motor     = ctre.WPI_TalonSRX(4)
+        self.left_shooter_motor      = ctre.WPI_TalonSRX(3)
+        self.right_shooter_motor     = ctre.WPI_TalonSRX(2)
 
 
-        self.left_drivetrain_motor    = ctre.WPI_TalonSRX(2)
-        self.left_drivetrain_motor_2  = ctre.WPI_TalonSRX(3)
+        self.left_drivetrain_motor    = ctre.WPI_TalonSRX(4)
+        self.left_drivetrain_motor_2  = ctre.WPI_TalonSRX(5)
 
         self.right_drivetrain_motor   = ctre.WPI_TalonSRX(0)
         self.right_drivetrain_motor_2 = ctre.WPI_TalonSRX(6)
