@@ -9,11 +9,11 @@ class Shooter:
 
         self.left_shooter.setInverted(True)
 
-        self.right_shooter.configVoltageCompSaturation(11.0, 0)
+        self.right_shooter.configVoltageCompSaturation(10.0, 0)
         self.right_shooter.enableVoltageCompensation(True)
         self.right_shooter.configVoltageMeasurementFilter(32, 0)
 
-        self.left_shooter.configVoltageCompSaturation(11.0, 0)
+        self.left_shooter.configVoltageCompSaturation(10.0, 0)
         self.left_shooter.enableVoltageCompensation(True)
         self.left_shooter.configVoltageMeasurementFilter(32, 0)
 
@@ -33,13 +33,13 @@ class Shooter:
             self.intake_motor.set(-0.6)
 
         elif stick.getRawAxis(2) > 0.50: #intake main
-            self.intake_motor.set(-0.7)
+            self.intake_motor.set(-0.8)
 
             self.left_shooter.set(ctre.ControlMode.PercentOutput, -0.3)
             self.right_shooter.set(ctre.ControlMode.PercentOutput, -0.3)
 
         elif stick.getRawButton(5) or stick.getRawButton(6): #regresar pelota
-            self.intake_motor.set(0.3)
+            self.intake_motor.set(0.4)
 
             self.left_shooter.set(ctre.ControlMode.PercentOutput, 0.4)
             self.right_shooter.set(ctre.ControlMode.PercentOutput, 0.4)

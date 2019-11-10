@@ -73,6 +73,19 @@ class Robot(wpilib.TimedRobot):
         self.duration = self.timer.getMsClock() - start
 
         wpilib.SmartDashboard.putNumber("Loop duration", self.duration)
+        wpilib.SmartDashboard.putNumber("Left Motor_1", self.left_drivetrain_motor_2.getMotorOutputVoltage())
+        wpilib.SmartDashboard.putNumber("Left Motor_2", self.left_drivetrain_motor.getMotorOutputVoltage())
+
+        wpilib.SmartDashboard.putNumber("Right Motor_1", self.right_drivetrain_motor.getMotorOutputVoltage())
+        wpilib.SmartDashboard.putNumber("Right Motor_2",  self.right_drivetrain_motor_2.getMotorOutputVoltage())
+
+        wpilib.SmartDashboard.putNumber("Right_Intake", self.right_shooter_motor.getOutputCurrent())
+        wpilib.SmartDashboard.putNumber("Left_Intake", self.left_shooter_motor.getOutputCurrent())
+
+        wpilib.SmartDashboard.putNumber("Bus_Voltage", self.right_drivetrain_motor.getBusVoltage())
+
+
+
 
 
 if __name__ == "__main__":
