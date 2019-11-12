@@ -1,26 +1,19 @@
 import wpilib
 
 class Arm:
-    def __init__(self, arm_pivot_motor: wpilib.PWMSpeedController, arm_lock_motor: wpilib.PWMSpeedController):
+    def __init__(self, arm_pivot_motor: wpilib.PWMSpeedController):
         self.arm_pivot_motor = arm_pivot_motor
-        self.arm_lock_motor  = arm_lock_motor
         self.i_acc       = 0
         self.last_error  = 0
     
     def lift(self, stick: wpilib.Joystick):
-        if stick.getRawButton(1):
+        if stick.getRawButton(4):
             self.arm_pivot_motor.set(0.5)  
-        elif stick.getRawButton(4):
+        elif stick.getRawButton(3):
             self.arm_pivot_motor.set(-0.5)
         else:
             self.arm_pivot_motor.set(0)
 
-        if stick.getRawButton(2):
-            self.arm_lock_motor.set(-0.3)  
-        elif stick.getRawButton(3):
-            self.arm_lock_motor.set(0.3)
-        else:
-            self.arm_lock_motor.set(0)
 
     """
     def hold_in_place(self):

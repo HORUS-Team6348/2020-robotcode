@@ -28,8 +28,7 @@ class Robot(wpilib.TimedRobot):
 
 
         self.intake_motor    = wpilib.Spark(8)
-        self.arm_pivot_motor = wpilib.Spark(6)
-        self.arm_lock_motor  = wpilib.Spark(5)
+        self.arm_pivot_motor = wpilib.Spark(0)
 
         self.timer      = wpilib.Timer()
         #self.navx       = navx.AHRS.create_spi()
@@ -38,7 +37,7 @@ class Robot(wpilib.TimedRobot):
 
         self.drivetrain = DriveTrain(self.left_drivetrain_motor, self.left_drivetrain_motor_2, self.right_drivetrain_motor, self.right_drivetrain_motor_2)
         self.shooter    = Shooter(self.intake_motor, self.left_shooter_motor, self.right_shooter_motor)
-        self.arm        = Arm(self.arm_pivot_motor, self.arm_lock_motor)
+        self.arm        = Arm(self.arm_pivot_motor)
 
 
     def autonomousInit(self):

@@ -21,14 +21,14 @@ class Shooter:
     
     def shoot(self, stick: wpilib.Joystick):
         if stick.getPOV() == 180:
-            self.left_shooter.set(ctre.ControlMode.PercentOutput, -0.6) #rocket bajo
-            self.right_shooter.set(ctre.ControlMode.PercentOutput, -0.6)
+            self.left_shooter.set(ctre.ControlMode.PercentOutput, -0.7) #rocket bajo
+            self.right_shooter.set(ctre.ControlMode.PercentOutput, -0.7)
 
             self.intake_motor.set(-0.6)
 
         elif stick.getPOV() == 0:
-            self.left_shooter.set(ctre.ControlMode.PercentOutput, -0.4) #rocket bajo
-            self.right_shooter.set(ctre.ControlMode.PercentOutput, -0.4)
+            self.left_shooter.set(ctre.ControlMode.PercentOutput, -0.5) #rocket bajo
+            self.right_shooter.set(ctre.ControlMode.PercentOutput, -0.5)
 
             self.intake_motor.set(-0.6)
 
