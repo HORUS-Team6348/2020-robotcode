@@ -13,6 +13,7 @@ class Robot(wpilib.TimedRobot):
         This function is called upon program startup and
         should be used for any initialization code.
         """
+        wpilib.LiveWindow.disableAllTelemetry()
         self.driver_stick   = wpilib.Joystick(0)
         self.codriver_stick = wpilib.Joystick(1)
 

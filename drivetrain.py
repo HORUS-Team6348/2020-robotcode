@@ -18,6 +18,7 @@ class DriveTrain:
 
         #self.navx        = navx
 
+        """
         self.left_motor.configVoltageCompSaturation(10.0, 0)
         self.left_motor.enableVoltageCompensation(True)
         self.left_motor.configVoltageMeasurementFilter(32, 0)
@@ -33,7 +34,7 @@ class DriveTrain:
         self.right_motor_2.configVoltageCompSaturation(10.0, 0)
         self.right_motor_2.enableVoltageCompensation(True)
         self.right_motor_2.configVoltageMeasurementFilter(32, 0)
-
+"""
         self.rotation_started     = False
         self.distance_pid_started = False
         self.target_angle     = 0
