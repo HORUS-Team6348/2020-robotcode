@@ -13,8 +13,8 @@ class DriveTrain:
         self.left_motor_2.follow(self.left_motor)
         self.right_motor_2.follow(self.right_motor)
 
-        self.right_motor.setInverted(True)
-        self.right_motor_2.setInverted(True)
+
+
 
         #self.navx        = navx
 
@@ -250,13 +250,13 @@ class DriveTrain:
         left_power  = self.get_left_motor(dpad, trigger)
         right_motor = self.get_right_motor(dpad, trigger)
 
-        self.set_motors(left_power, right_motor)
+        self.set_motors(left_power, -right_motor)
 
     def drive_with_heading(self, heading, trigger):
         left_power  = self.get_left_motor(heading, trigger)
         right_motor = self.get_right_motor(heading, trigger)
 
-        self.set_motors(left_power, right_motor)
+        self.set_motors(left_power, -right_motor)
 
     def get_trigger(self, stick: wpilib.Joystick):
         first_trigger  = stick.getRawAxis(3)

@@ -1,11 +1,12 @@
-from drivetrain import DriveTrain
-from shooter import Shooter
-from arm import Arm
-import wpilib.buttons
-import wpilib.drive
 import wpilib
-import os
+from drivetrain import DriveTrain
+from box import Box
+from robotlift import RLift
 import ctre
+import rev
+
+
+
 
 class Robot(wpilib.TimedRobot):
     def robotInit(self):
@@ -13,32 +14,38 @@ class Robot(wpilib.TimedRobot):
         This function is called upon program startup and
         should be used for any initialization code.
         """
-        wpilib.LiveWindow.disableAllTelemetry()
-        self.driver_stick   = wpilib.Joystick(0)
+
+        self.driver_stick = wpilib.Joystick(0)
         self.codriver_stick = wpilib.Joystick(1)
 
-        self.left_shooter_motor      = ctre.WPI_TalonSRX(3)
-        self.right_shooter_motor     = ctre.WPI_TalonSRX(2)
+        # Drivetrain Motors
+        self.left_drivetrain_motor = ctre.WPI_TalonSRX(4)
+        self.left_drivetrain_motor_2 = ctre.WPI_TalonSRX(3)
+
+        self.right_drivetrain_motor = ctre.WPI_TalonSRX(6)
+        self.right_drivetrain_motor_2 = ctre.WPI_TalonSRX(5)
+
+        # Box-mechanism Motors
+        self.intake_motor = wpilib.Spark(8)
+        self.box_lift_motor = ctre.WPI_TalonSRX(2)
+
+        # Lift mechanism Motors
+        self.elevator_motor = wpilib.Spark(9)
+        self.main_lift      = rev.CANSparkMax(7, rev.MotorType.kBrushless)
+
+        #ControlPanel objects
+        self.arm = ctre.WPI_TalonSRX(1)
+        self.arm.configSelectedFeedbackSensor(ctre.FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0)
 
 
-        self.left_drivetrain_motor    = ctre.WPI_TalonSRX(4)
-        self.left_drivetrain_motor_2  = ctre.WPI_TalonSRX(5)
+        self.timer = wpilib.Timer()
 
-        self.right_drivetrain_motor   = ctre.WPI_TalonSRX(0)
-        self.right_drivetrain_motor_2 = ctre.WPI_TalonSRX(6)
-
-
-        self.intake_motor    = wpilib.Spark(8)
-        self.arm_pivot_motor = wpilib.Spark(0)
-
-        self.timer      = wpilib.Timer()
-        #self.navx       = navx.AHRS.create_spi()
-
-        self.duration   = 20
+        self.duration = 20
 
         self.drivetrain = DriveTrain(self.left_drivetrain_motor, self.left_drivetrain_motor_2, self.right_drivetrain_motor, self.right_drivetrain_motor_2)
-        self.shooter    = Shooter(self.intake_motor, self.left_shooter_motor, self.right_shooter_motor)
-        self.arm        = Arm(self.arm_pivot_motor)
+        self.box =Box(self.intake_motor,self.box_lift_motor)
+        self.robotlift = RLift(self.elevator_motor, self.main_lift)
+        wpilib.CameraServer.launch()
 
 
     def autonomousInit(self):
@@ -51,39 +58,14 @@ class Robot(wpilib.TimedRobot):
         pass
 
     def teleopPeriodic(self):
-        """This function is called periodically during operator control."""
-        start = self.timer.getMsClock()
-        
+
         self.drivetrain.drive(self.driver_stick)
-        self.shooter.shoot(self.codriver_stick)
-        self.arm.lift(self.codriver_stick)
+        self.box.BallIntake(self.codriver_stick)
+        self.box.BoxLift(self.codriver_stick)
+        self.robotlift.Climb(self.codriver_stick)
+        self.robotlift.HookElevator(self.codriver_stick)
 
-        """
-        wpilib.SmartDashboard.putNumber("NavX", self.navx.getAngle())
-        """
-        """
-        wpilib.SmartDashboard.putNumber("Left shooter position", self.left_shooter_motor.getQuadraturePosition())
-        wpilib.SmartDashboard.putNumber("Right shooter position", self.right_shooter_motor.getQuadraturePosition())
-        """
-        """
-        wpilib.SmartDashboard.putNumber("Left shooter RPM error", self.left_shooter_motor.getClosedLoopError(0) * 600/4096)
-        wpilib.SmartDashboard.putNumber("Right shooter RPM error", self.right_shooter_motor.getClosedLoopError(0) * 600/4096)
-        """
-
-        self.duration = self.timer.getMsClock() - start
-
-        wpilib.SmartDashboard.putNumber("Loop duration", self.duration)
-        wpilib.SmartDashboard.putNumber("Left Motor_1", self.left_drivetrain_motor_2.getMotorOutputVoltage())
-        wpilib.SmartDashboard.putNumber("Left Motor_2", self.left_drivetrain_motor.getMotorOutputVoltage())
-
-        wpilib.SmartDashboard.putNumber("Right Motor_1", self.right_drivetrain_motor.getMotorOutputVoltage())
-        wpilib.SmartDashboard.putNumber("Right Motor_2",  self.right_drivetrain_motor_2.getMotorOutputVoltage())
-
-        wpilib.SmartDashboard.putNumber("Right_Intake", self.right_shooter_motor.getOutputCurrent())
-        wpilib.SmartDashboard.putNumber("Left_Intake", self.left_shooter_motor.getOutputCurrent())
-
-        wpilib.SmartDashboard.putNumber("Bus_Voltage", self.right_drivetrain_motor.getBusVoltage())
-
+        wpilib.SmartDashboard.putNumber(keyName="encoder", value= self.arm.getSelectedSensorPosition())
 
 
 
