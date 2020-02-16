@@ -42,9 +42,10 @@ class Robot(wpilib.TimedRobot):
 
         self.duration = 20
 
-        self.drivetrain = DriveTrain(self.left_drivetrain_motor, self.left_drivetrain_motor_2, self.right_drivetrain_motor, self.right_drivetrain_motor_2)
-        self.box =Box(self.intake_motor,self.box_lift_motor)
-        self.robotlift = RLift(self.elevator_motor, self.main_lift)
+        self.drivetrain   = DriveTrain(self.left_drivetrain_motor, self.left_drivetrain_motor_2, self.right_drivetrain_motor, self.right_drivetrain_motor_2)
+        self.box          = Box(self.intake_motor,self.box_lift_motor)
+        self.robotlift    = RLift(self.elevator_motor, self.main_lift)
+        self.ControlPanel = CPanel(self.arm)
         wpilib.CameraServer.launch()
 
 
