@@ -1,4 +1,6 @@
 import wpilib
+
+from Panel import Arm
 from drivetrain import DriveTrain
 from box import Box
 from robotlift import RLift
@@ -35,7 +37,12 @@ class Robot(wpilib.TimedRobot):
 
         #ControlPanel objects
         self.arm = ctre.WPI_TalonSRX(1)
+
         self.arm.configSelectedFeedbackSensor(ctre.FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0)
+        self.arm.config_kP(0, (0.3 * 1023) / 4161 , 0)
+        self.arm.config_kI(0, (0.5 * 1023) / (4161*30), 0)
+        self.arm.config_kD(0, 30*(0.5 * 1023) / 4161, 0)
+        self.arm.config_kF(0, 0, 0)
 
 
         self.timer = wpilib.Timer()
@@ -45,7 +52,7 @@ class Robot(wpilib.TimedRobot):
         self.drivetrain   = DriveTrain(self.left_drivetrain_motor, self.left_drivetrain_motor_2, self.right_drivetrain_motor, self.right_drivetrain_motor_2)
         self.box          = Box(self.intake_motor,self.box_lift_motor)
         self.robotlift    = RLift(self.elevator_motor, self.main_lift)
-        self.Panel = Arm(self.arm)
+        self.Panel        = Arm(self.arm)
 
         wpilib.CameraServer.launch()
 
@@ -66,8 +73,9 @@ class Robot(wpilib.TimedRobot):
         self.box.BoxLift(self.codriver_stick)
         self.robotlift.Climb(self.codriver_stick)
         self.robotlift.HookElevator(self.codriver_stick)
-
+        self.Panel.ControlPosition(self.codriver_stick)
         wpilib.SmartDashboard.putNumber(keyName="encoder", value= self.arm.getSelectedSensorPosition())
+
 
 
 
