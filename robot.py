@@ -6,6 +6,8 @@ from box import Box
 from robotlift import RLift
 import ctre
 import rev
+from  Autos.Station1 import S_1
+import navx
 
 
 
@@ -26,6 +28,11 @@ class Robot(wpilib.TimedRobot):
 
         self.right_drivetrain_motor = ctre.WPI_TalonSRX(6)
         self.right_drivetrain_motor_2 = ctre.WPI_TalonSRX(5)
+
+        #Encoders
+
+        self.left_drivetrain_encoder   = self.left_drivetrain_motor.getSelectedSensorPosition()
+        self.right_drivetrain_encoder  = self.right_drivetrain_motor.getSelectedSensorPosition()
 
         # Box-mechanism Motors
         self.intake_motor = wpilib.Spark(8)
@@ -54,15 +61,33 @@ class Robot(wpilib.TimedRobot):
         self.robotlift    = RLift(self.elevator_motor, self.main_lift)
         self.Panel        = Arm(self.arm)
 
+        wpilib.SmartDashboard.putString(keyName="Robot_Station", value= "1")
+
+
         wpilib.CameraServer.launch()
+
+        self.auto_timer = wpilib.Timer()
+        self.navx       = navx.AHRS.create_spi()
+        self.auto = 0
 
 
     def autonomousInit(self):
-        pass
+        self.auto_timer.start()
+        self.gyro.reset()
+
+        robot_position = wpilib.SmartDashboard.getString(keyName = "Robot position", defaultValue= "1")
+
+        if robot_position[0].lower()    == "1":
+            if __name__ == '__main__':
+                self.auto = S_1(self)
+
+        #elif robot_position[0].lower()  == "2":
+
+        #elif robot_position[0].lower()  == "3":
+
 
     def autonomousPeriodic(self):
-        self.teleopPeriodic()
-
+        self.auto.drive()
     def teleopInit(self):
         pass
 
@@ -75,6 +100,7 @@ class Robot(wpilib.TimedRobot):
         self.robotlift.HookElevator(self.codriver_stick)
         self.Panel.ControlPosition(self.codriver_stick)
         wpilib.SmartDashboard.putNumber(keyName="encoder", value= self.arm.getSelectedSensorPosition())
+        wpilib.SmartDashboard.putNumber(keyName= "Drivetrain_Encoder", value= self.left_drivetrain_motor.getSelectedSensorPosition())
 
 
 
