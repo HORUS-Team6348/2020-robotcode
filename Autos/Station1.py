@@ -50,10 +50,10 @@ class S_1:
         elif self.has_shot == True:
             wpilib.SmartDashboard.putBoolean(keyName="has_shoot", value=self.has_shot)
 
-            if wpilib.Timer.getFPGATimestamp() < self.exit_timestamp + 15:
+            if self.robot.auto_timer.getFPGATimestamp() < self.exit_timestamp + 15:
                 self.robot.drivetrain.drive_with_gyro_pid(self.robot.navx, -.6)
 
-            elif wpilib.Timer.getFPGATimestamp() > self.exit_timestamp + 15:
+            elif self.robot.auto_timer.getFPGATimestamp() > self.exit_timestamp + 15:
                 self.robot.drivetrain.stop()
 
 
