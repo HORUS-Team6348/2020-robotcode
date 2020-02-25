@@ -35,13 +35,13 @@ class S_1:
 
 
         elif self.has_arrived == True:
-            if wpilib.Timer.getFPGATimestamp() < self.turning_timestamp + 2:
+            if self.robot.auto_timer.getFPGATimestamp() < self.turning_timestamp + 2:
                 self.robot.box_lift_motor.set(.6)
 
-            elif wpilib.Timer.getFPGATimestamp() > self.turning_timestamp +2 and  wpilib.Timer.getFPGATimestamp() < (self.turning_timestamp + 4) :
+            elif self.robot.auto_timer.getFPGATimestamp() > self.turning_timestamp +2 and  wpilib.Timer.getFPGATimestamp() < (self.turning_timestamp + 4) :
                 self.robot.intake_motor.set(-.8)
 
-            elif wpilib.Timer.getFPGATimestamp() > self.turning_timestamp + 4:
+            elif self.robot.auto_timer.getFPGATimestamp() > self.turning_timestamp + 4:
                 self.robot.box_lift_motor.set(0)
                 self.robot.intake_motor.set(0)
                 self.has_shot = True
@@ -49,6 +49,7 @@ class S_1:
 
         elif self.has_shot == True:
             wpilib.SmartDashboard.putBoolean(keyName="has_shoot", value=self.has_shot)
+            self.robot.intake_motor.set(.8)
 
             if self.robot.auto_timer.getFPGATimestamp() < self.exit_timestamp + 15:
                 self.robot.drivetrain.drive_with_gyro_pid(self.robot.navx, -.6)
