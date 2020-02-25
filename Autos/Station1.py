@@ -13,7 +13,7 @@ class S_1:
         self.shot_pos = 0
         self.turning_timestamp = 0
         self.exit_timestamp    = 0
-        self.goal = (4159*2)
+        self.goal = (4159*3.6)
         self.exit_goal = -1*(4159*4)
 
 
@@ -24,7 +24,7 @@ class S_1:
 
         if not self.has_arrived:
             if self.robot.right_drivetrain_motor.getSelectedSensorPosition() - self.inicial_state < (self.goal - 100):
-                self.robot.drivetrain.drive_with_gyro_pid(self.robot.navx, .6)
+                self.robot.drivetrain.drive_with_gyro_pid(self.robot.navx, .4)
 
             if self.robot.right_drivetrain_motor.getSelectedSensorPosition() - self.inicial_state > (self.goal + 100):
                 self.has_arrived = True
@@ -34,8 +34,8 @@ class S_1:
 
 
 
-        elif self.has_arrived == True:
-            if self.robot.auto_timer.getFPGATimestamp() < self.turning_timestamp + 2:
+        elif not self.has_shot:
+            if self.robot.auto_timer.getFPGATimestamp() < self.turning_timestamp + 3:
                 self.robot.box_lift_motor.set(.6)
 
             elif self.robot.auto_timer.getFPGATimestamp() > self.turning_timestamp +2 and  wpilib.Timer.getFPGATimestamp() < (self.turning_timestamp + 4) :
@@ -47,14 +47,13 @@ class S_1:
                 self.has_shot = True
                 self.exit_timestamp = self.robot.auto_timer.getFPGATimestamp()
 
-        elif self.has_shot == True:
+        else:
             wpilib.SmartDashboard.putBoolean(keyName="has_shoot", value=self.has_shot)
-            self.robot.intake_motor.set(.8)
 
-            if self.robot.auto_timer.getFPGATimestamp() < self.exit_timestamp + 15:
-                self.robot.drivetrain.drive_with_gyro_pid(self.robot.navx, -.6)
+            if self.robot.auto_timer.getFPGATimestamp() < self.exit_timestamp + 3:
+                self.robot.drivetrain.drive_with_gyro_pid(self.robot.navx, -.5)
 
-            elif self.robot.auto_timer.getFPGATimestamp() > self.exit_timestamp + 15:
+            elif self.robot.auto_timer.getFPGATimestamp() > self.exit_timestamp + 3:
                 self.robot.drivetrain.stop()
 
 
